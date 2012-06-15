@@ -19,7 +19,7 @@ import org.hibernate.engine.Versioning;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.collection.CollectionPersister;
 import org.hibernate.persister.entity.EntityPersister;
-import org.hibernate.type.TypeHelper;
+import org.hibernate.type.TypeFactory;
 
 /**
  * Hibernate object (re-)attacher
@@ -102,7 +102,7 @@ public class Attacher
 		PersistenceContext persistenceContext = sessionImpl.getPersistenceContext();
 
 		ClassMetadata metadata = sessionImpl.getFactory().getClassMetadata(def.getOwner().getClass());
-		Serializable identifier = metadata.getIdentifier(def.getOwner(), sessionImpl);
+		Serializable identifier = metadata.getIdentifier(def.getOwner(), sessionImpl.getEntityMode());
 
 		PersistentCollection collection = def.getCollectionType().createCollection(sessionImpl);
 		collection.setOwner(def.getOwner());
@@ -117,7 +117,7 @@ public class Attacher
 			EntityPersister ownPersister = getOwnPersister(def.getOwner(), sessionImpl);
 
 			Object[] values = ownPersister.getPropertyValues(def.getOwner(), EntityMode.POJO);
-			TypeHelper.deepCopy(
+			TypeFactory.deepCopy(
 				values,
 				ownPersister.getPropertyTypes(),
 				ownPersister.getPropertyUpdateability(),

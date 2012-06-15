@@ -72,7 +72,7 @@ public class HibernateObjectVisitor implements VisitorStrategy
 	@Override
 	public Set<Object> visit(Object object)
 	{
-		Serializable identifier = metadata.getIdentifier(object, sessionImpl);
+		Serializable identifier = metadata.getIdentifier(object, sessionImpl.getEntityMode());
 
 		Set<Object> toWalk = new HashSet<Object>();
 

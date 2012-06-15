@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.AnnotationConfiguration;
 
 /**
  * Hibernate test helper
@@ -22,7 +22,7 @@ public final class HibernateHelper
 	 */
 	public static SessionFactory buildSessionFactory(List<Class<? extends Serializable>> entities)
 	{
-		Configuration cfg = new Configuration();
+		AnnotationConfiguration cfg = new AnnotationConfiguration();
 
 		for (Class<? extends Serializable> entity : entities)
 		{

@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.CollectionOfElements;
 
 /**
  * @author schulten
@@ -28,13 +31,14 @@ public class MapObject implements Serializable
 	private Long id;
 
 	/** Map */
-	@ElementCollection
+	@CollectionOfElements(targetElement = String.class)
 	@JoinTable(name = "map_table", joinColumns = @JoinColumn(name = "mapobject_id", nullable = false))
 	@Column(name = "stringValue", length = 1000)
 	private Map<String, String> map = new HashMap<String, String>();
 
 	/** */
-	@OneToMany(orphanRemoval = true)
+	@OneToMany
+	@Cascade(CascadeType.DELETE_ORPHAN)
 	private List<Adres> adresses = new ArrayList<Adres>();
 
 	/**

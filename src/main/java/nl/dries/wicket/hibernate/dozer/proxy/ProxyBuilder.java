@@ -293,33 +293,6 @@ public class ProxyBuilder
 		}
 
 		/**
-		 * @see org.hibernate.proxy.LazyInitializer#isReadOnlySettingAvailable()
-		 */
-		@Override
-		public boolean isReadOnlySettingAvailable()
-		{
-			return false;
-		}
-
-		/**
-		 * @see org.hibernate.proxy.LazyInitializer#isReadOnly()
-		 */
-		@Override
-		public boolean isReadOnly()
-		{
-			return false;
-		}
-
-		/**
-		 * @see org.hibernate.proxy.LazyInitializer#setReadOnly(boolean)
-		 */
-		@Override
-		public void setReadOnly(boolean readOnly)
-		{
-			// Ignore
-		}
-
-		/**
 		 * @see org.hibernate.proxy.LazyInitializer#getSession()
 		 */
 		@Override

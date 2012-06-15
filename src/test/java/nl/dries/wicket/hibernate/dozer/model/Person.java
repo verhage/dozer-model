@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.CollectionOfElements;
 
 /**
  * @author dries
@@ -38,7 +38,7 @@ public class Person implements Serializable
 	private AbstractOrganization organization;
 
 	/** */
-	@ElementCollection
+	@CollectionOfElements(targetElement = String.class)
 	private List<String> pets = new ArrayList<String>();
 
 	/**
