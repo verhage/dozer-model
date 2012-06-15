@@ -86,12 +86,27 @@ public enum HibernateCollectionType
 				.getConstructor(SessionImplementor.class);
 			collection = constructor.newInstance(sessionImpl);
 		}
-		catch (NoSuchMethodException | SecurityException e)
+		catch (NoSuchMethodException e)
 		{
 			LOG.error("Persistent collection type {} has no SessionImplementor constructor", hibernateCollectionClass);
 		}
-		catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-			| InvocationTargetException e)
+		catch (SecurityException e)
+		{
+			LOG.error("Persistent collection type {} has no SessionImplementor constructor", hibernateCollectionClass);
+		}
+		catch (InstantiationException e)
+		{
+			LOG.error("Cannot create collection instance of type " + hibernateCollectionClass, e);
+		}
+		catch (IllegalAccessException e)
+		{
+			LOG.error("Cannot create collection instance of type " + hibernateCollectionClass, e);
+		}
+		catch (IllegalArgumentException e)
+		{
+			LOG.error("Cannot create collection instance of type " + hibernateCollectionClass, e);
+		}
+		catch (InvocationTargetException e)
 		{
 			LOG.error("Cannot create collection instance of type " + hibernateCollectionClass, e);
 		}
@@ -124,7 +139,15 @@ public enum HibernateCollectionType
 		{
 			LOG.error("Colection type {} has no empty constructor", plainTypeClass);
 		}
-		catch (InstantiationException | IllegalAccessException | IllegalArgumentException e)
+		catch (InstantiationException e)
+		{
+			LOG.error("Cannot create collection instance of type " + plainTypeClass, e);
+		}
+		catch (IllegalAccessException e)
+		{
+			LOG.error("Cannot create collection instance of type " + plainTypeClass, e);
+		}
+		catch (IllegalArgumentException e)
 		{
 			LOG.error("Cannot create collection instance of type " + plainTypeClass, e);
 		}

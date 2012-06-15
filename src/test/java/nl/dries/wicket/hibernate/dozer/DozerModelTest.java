@@ -51,7 +51,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 	{
 		Person person = new Person();
 
-		DozerModel<Person> model = new DozerModel<>(person);
+		DozerModel<Person> model = new DozerModel<Person>(person);
 
 		assertEquals(person, model.getObject());
 	}
@@ -65,7 +65,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		Person person = new Person();
 		person.setId(1L);
 
-		DozerModel<Person> model = new DozerModel<>(person);
+		DozerModel<Person> model = new DozerModel<Person>(person);
 		model.detach();
 		model = serialize(model);
 
@@ -93,7 +93,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		getSession().clear();
 
 		adres.setPerson((Person) getSession().load(Person.class, 1L)); // Forcing proxy
-		DozerModel<Adres> model = new DozerModel<>(adres);
+		DozerModel<Adres> model = new DozerModel<Adres>(adres);
 		model.detach();
 		model = serialize(model);
 
@@ -124,7 +124,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 
 		person.setAdresses(Arrays.asList((Adres) getSession().load(Adres.class, 1L))); // Forcing proxy
 
-		DozerModel<Person> model = new DozerModel<>(person);
+		DozerModel<Person> model = new DozerModel<Person>(person);
 		model.detach();
 		model = serialize(model);
 
@@ -138,7 +138,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 	@Test
 	public void testWithTree()
 	{
-		DozerModel<RootTreeObject> model = new DozerModel<>(RootTreeObject.class, buildTree().getId());
+		DozerModel<RootTreeObject> model = new DozerModel<RootTreeObject>(RootTreeObject.class, buildTree().getId());
 
 		model.getObject().getName(); // Root initialization
 		model.detach();
@@ -159,7 +159,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		DescTreeObject child = (DescTreeObject) getSession().load(DescTreeObject.class, 2L);
 		child.setParent((RootTreeObject) getSession().load(RootTreeObject.class, 1L));
 
-		DozerModel<DescTreeObject> model = new DozerModel<>(child);
+		DozerModel<DescTreeObject> model = new DozerModel<DescTreeObject>(child);
 		model.detach();
 		model = serialize(model);
 
@@ -173,7 +173,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 	@Test
 	public void testTree()
 	{
-		DozerModel<AbstractTreeObject> model = new DozerModel<>(buildTree());
+		DozerModel<AbstractTreeObject> model = new DozerModel<AbstractTreeObject>(buildTree());
 		model.detach();
 		model = serialize(model);
 	}
@@ -184,7 +184,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 	@Test
 	public void testTreeWithSameBranches()
 	{
-		DozerModel<AbstractTreeObject> model = new DozerModel<>(buildTree());
+		DozerModel<AbstractTreeObject> model = new DozerModel<AbstractTreeObject>(buildTree());
 		model.detach();
 		model = serialize(model);
 
@@ -216,7 +216,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 
 		person.setOrganization(company);
 
-		DozerModel<Person> model = new DozerModel<>(person);
+		DozerModel<Person> model = new DozerModel<Person>(person);
 		model.detach();
 		model = serialize(model);
 
@@ -245,7 +245,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		getSession().flush();
 		getSession().clear();
 
-		DozerModel<Person> model = new DozerModel<>((Person) getSession().load(Person.class, 1L));
+		DozerModel<Person> model = new DozerModel<Person>((Person) getSession().load(Person.class, 1L));
 		model.detach();
 		model = serialize(model);
 
@@ -271,10 +271,10 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		person.setId(1L);
 		person.setName("person");
 
-		assertTrue(new DozerModel<Person>(person).equals(new DozerModel<>(person)));
-		assertTrue(new DozerModel<Person>(person).equals(new Model<>(person)));
+		assertTrue(new DozerModel<Person>(person).equals(new DozerModel<Person>(person)));
+		assertTrue(new DozerModel<Person>(person).equals(new Model<Person>(person)));
 
-		assertFalse(new DozerModel<Person>(person).equals(new DozerModel<>(new Person())));
+		assertFalse(new DozerModel<Person>(person).equals(new DozerModel<Person>(new Person())));
 	}
 
 	/**
@@ -288,7 +288,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		person.setName("person");
 		getSession().saveOrUpdate(person);
 
-		DozerModel<Person> model = new DozerModel<>(person);
+		DozerModel<Person> model = new DozerModel<Person>(person);
 		model.detach();
 		model = serialize(model);
 
@@ -366,17 +366,17 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		getSession().flush();
 		getSession().clear();
 
-		List<Person> list = new ArrayList<>();
+		List<Person> list = new ArrayList<Person>();
 		list.add(p1);
 		list.add(p2);
 
-		DozerListModel<Person> model = new DozerListModel<>(list);
+		DozerListModel<Person> model = new DozerListModel<Person>(list);
 		model.detach();
 		model = serialize(model);
 
 		assertEquals(list, model.getObject());
 
-		list = new ArrayList<>();
+		list = new ArrayList<Person>();
 		model.setObject(list);
 		model.detach();
 		model = serialize(model);
@@ -404,7 +404,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		closeSession();
 		openSession();
 
-		DozerModel<MapObject> model = new DozerModel<>((MapObject) getSession().load(MapObject.class, 1L));
+		DozerModel<MapObject> model = new DozerModel<MapObject>((MapObject) getSession().load(MapObject.class, 1L));
 
 		model.detach();
 		model = serialize(model);
@@ -455,7 +455,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		getSession().flush();
 		getSession().clear();
 
-		DozerModel<Company> model = new DozerModel<>((Company) getSession().load(Company.class, 1L));
+		DozerModel<Company> model = new DozerModel<Company>((Company) getSession().load(Company.class, 1L));
 		model.detach();
 		model = serialize(model);
 
@@ -482,7 +482,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		getSession().flush();
 		getSession().clear();
 
-		DozerModel<Company> model = new DozerModel<>((Company) getSession().load(Company.class, 1L));
+		DozerModel<Company> model = new DozerModel<Company>((Company) getSession().load(Company.class, 1L));
 		model.getObject().getPersons().size();
 
 		model.detach();
@@ -515,7 +515,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		NonHibernateObject object = new NonHibernateObject();
 		object.setPerson((Person) getSession().load(Person.class, 1L));
 
-		DozerModel<NonHibernateObject> model = new DozerModel<>(object);
+		DozerModel<NonHibernateObject> model = new DozerModel<NonHibernateObject>(object);
 
 		model.detach();
 		model = serialize(model);
@@ -545,7 +545,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		object.setPerson(person);
 		object.setOther(new NonHibernateObject());
 
-		DozerModel<NonHibernateObject> model = new DozerModel<>(object);
+		DozerModel<NonHibernateObject> model = new DozerModel<NonHibernateObject>(object);
 
 		model.detach();
 		model = serialize(model);
@@ -566,7 +566,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 
 		getSession().saveOrUpdate(person);
 
-		DozerModel<Person> model = new DozerModel<>(person);
+		DozerModel<Person> model = new DozerModel<Person>(person);
 		model.detach();
 
 		model.setObject(new Person());
@@ -594,7 +594,7 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 		getSession().flush();
 		getSession().clear();
 
-		DozerModel<MapObject> model = new DozerModel<>((MapObject) getSession().load(MapObject.class, 1L));
+		DozerModel<MapObject> model = new DozerModel<MapObject>((MapObject) getSession().load(MapObject.class, 1L));
 		model.detach();
 
 		getSession().clear();
@@ -637,7 +637,12 @@ public class DozerModelTest extends AbstractWicketHibernateTest
 			ObjectInputStream is = new ObjectInputStream(bais);
 			out = (T) is.readObject();
 		}
-		catch (IOException | ClassNotFoundException e)
+		catch (IOException e)
+		{
+			LOG.error("Fout bij de-serialiseren", e);
+			fail(e.getMessage());
+		}
+		catch (ClassNotFoundException e)
 		{
 			LOG.error("Fout bij de-serialiseren", e);
 			fail(e.getMessage());

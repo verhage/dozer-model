@@ -74,7 +74,7 @@ public class HibernateObjectVisitor implements VisitorStrategy
 	{
 		Serializable identifier = metadata.getIdentifier(object, sessionImpl);
 
-		Set<Object> toWalk = new HashSet<>();
+		Set<Object> toWalk = new HashSet<Object>();
 
 		for (String propertyName : metadata.getPropertyNames())
 		{

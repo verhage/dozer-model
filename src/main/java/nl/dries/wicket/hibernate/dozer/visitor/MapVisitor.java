@@ -19,7 +19,7 @@ public class MapVisitor implements VisitorStrategy
 	{
 		Map<?, ?> map = (Map<?, ?>) object;
 
-		HashSet<Object> toWalk = new HashSet<>();
+		HashSet<Object> toWalk = new HashSet<Object>();
 		toWalk.addAll(map.values());
 		toWalk.addAll(map.keySet());
 

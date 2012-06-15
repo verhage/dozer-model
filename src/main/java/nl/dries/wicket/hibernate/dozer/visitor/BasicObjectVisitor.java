@@ -62,7 +62,7 @@ public class BasicObjectVisitor implements VisitorStrategy
 	@Override
 	public Set<Object> visit(Object object)
 	{
-		Set<Object> toWalk = new HashSet<>();
+		Set<Object> toWalk = new HashSet<Object>();
 
 		for (PropertyDescriptor descriptor : PropertyUtils.getPropertyDescriptors(object.getClass()))
 		{
@@ -150,7 +150,15 @@ public class BasicObjectVisitor implements VisitorStrategy
 		{
 			return method.invoke(object);
 		}
-		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+		catch (IllegalAccessException e)
+		{
+			LOG.error(String.format("Error while invoking getter %s on bean %s", method, object), e);
+		}
+		catch (IllegalArgumentException e)
+		{
+			LOG.error(String.format("Error while invoking getter %s on bean %s", method, object), e);
+		}
+		catch (InvocationTargetException e)
 		{
 			LOG.error(String.format("Error while invoking getter %s on bean %s", method, object), e);
 		}
@@ -174,7 +182,15 @@ public class BasicObjectVisitor implements VisitorStrategy
 		{
 			method.invoke(object, new Object[] { newVal });
 		}
-		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+		catch (IllegalAccessException e)
+		{
+			LOG.error(String.format("Error while invoking setter method %s on bean %s", method, object), e);
+		}
+		catch (IllegalArgumentException e)
+		{
+			LOG.error(String.format("Error while invoking setter method %s on bean %s", method, object), e);
+		}
+		catch (InvocationTargetException e)
 		{
 			LOG.error(String.format("Error while invoking setter method %s on bean %s", method, object), e);
 		}

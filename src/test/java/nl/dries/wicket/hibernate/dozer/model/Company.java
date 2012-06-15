@@ -24,7 +24,7 @@ public class Company extends AbstractOrganization
 
 	/** */
 	@OneToMany
-	private Set<Person> persons = new HashSet<>();
+	private Set<Person> persons = new HashSet<Person>();
 
 	/**
 	 * @return the adres

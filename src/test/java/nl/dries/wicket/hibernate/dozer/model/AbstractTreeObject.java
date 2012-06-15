@@ -32,7 +32,7 @@ public abstract class AbstractTreeObject implements Serializable
 
 	/** */
 	@OneToMany
-	private List<AbstractTreeObject> children = new ArrayList<>();
+	private List<AbstractTreeObject> children = new ArrayList<AbstractTreeObject>();
 
 	/** */
 	@Column

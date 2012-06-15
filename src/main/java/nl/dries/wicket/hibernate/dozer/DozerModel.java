@@ -117,7 +117,7 @@ public class DozerModel<T> implements IModel<T>, ModelCallback
 				object = (T) proxy.getHibernateLazyInitializer().getImplementation();
 			}
 
-			ObjectVisitor<T> walker = new ObjectVisitor<>(object, sessionFinder, this);
+			ObjectVisitor<T> walker = new ObjectVisitor<T>(object, sessionFinder, this);
 			detachedObject = walker.walk();
 
 			object = null;

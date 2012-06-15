@@ -38,7 +38,7 @@ public class DozerListModel<T> implements IModel<List<T>>
 	 */
 	public DozerListModel()
 	{
-		this.models = new ArrayList<>();
+		this.models = new ArrayList<DozerModel<T>>();
 	}
 
 	/**
@@ -52,10 +52,10 @@ public class DozerListModel<T> implements IModel<List<T>>
 
 		if (objects != null)
 		{
-			models = new ArrayList<>();
+			models = new ArrayList<DozerModel<T>>();
 			for (T obj : objects)
 			{
-				models.add(new DozerModel<>(obj));
+				models.add(new DozerModel<T>(obj));
 			}
 		}
 	}
@@ -83,7 +83,7 @@ public class DozerListModel<T> implements IModel<List<T>>
 	{
 		if (models != null)
 		{
-			List<T> objects = new ArrayList<>(models.size());
+			List<T> objects = new ArrayList<T>(models.size());
 			for (DozerModel<T> model : models)
 			{
 				objects.add(model.getObject());

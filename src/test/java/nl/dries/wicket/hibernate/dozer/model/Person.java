@@ -31,7 +31,7 @@ public class Person implements Serializable
 
 	/** */
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
-	private List<Adres> adresses = new ArrayList<>();
+	private List<Adres> adresses = new ArrayList<Adres>();
 
 	/** */
 	@ManyToOne
@@ -39,7 +39,7 @@ public class Person implements Serializable
 
 	/** */
 	@ElementCollection
-	private List<String> pets = new ArrayList<>();
+	private List<String> pets = new ArrayList<String>();
 
 	/**
 	 * @return the id

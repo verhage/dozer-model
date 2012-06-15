@@ -50,7 +50,7 @@ public class ProxyBuilder
 
 		Class<?> superType = property.getPropertyType();
 
-		List<Class<?>> interfaces = new ArrayList<>(Arrays.asList(Serializable.class, Proxied.class));
+		List<Class<?>> interfaces = new ArrayList<Class<?>>(Arrays.asList(Serializable.class, Proxied.class));
 
 		if (!superType.isInterface())
 		{
@@ -74,7 +74,11 @@ public class ProxyBuilder
 		{
 			proxy = proxyClass.newInstance();
 		}
-		catch (InstantiationException | IllegalAccessException e)
+		catch (InstantiationException e)
+		{
+			LOG.error("Error creating Javassist proxy", e);
+		}
+		catch (IllegalAccessException e)
 		{
 			LOG.error("Error creating Javassist proxy", e);
 		}

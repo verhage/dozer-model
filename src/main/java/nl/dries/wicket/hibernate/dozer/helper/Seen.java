@@ -11,7 +11,7 @@ import java.util.List;
 public class Seen
 {
 	/** */
-	List<Object> seen = new ArrayList<>();
+	List<Object> seen = new ArrayList<Object>();
 
 	/**
 	 * @param obj

@@ -49,7 +49,7 @@ public class CollectionVisitor implements VisitorStrategy
 	 */
 	private Set<Object> visitList(List<Object> list)
 	{
-		Map<Integer, Object> toReplace = new HashMap<>();
+		Map<Integer, Object> toReplace = new HashMap<Integer, Object>();
 
 		for (int i = 0; i < list.size(); i++)
 		{
@@ -65,7 +65,7 @@ public class CollectionVisitor implements VisitorStrategy
 			list.set(entry.getKey(), entry.getValue());
 		}
 
-		return new HashSet<>(list);
+		return new HashSet<Object>(list);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class CollectionVisitor implements VisitorStrategy
 	 */
 	private Set<Object> visitSet(Set<Object> set)
 	{
-		Map<Object, Object> toReplace = new HashMap<>();
+		Map<Object, Object> toReplace = new HashMap<Object, Object>();
 
 		Iterator<Object> iter = set.iterator();
 		while (iter.hasNext())

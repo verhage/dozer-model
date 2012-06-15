@@ -39,7 +39,15 @@ public final class ObjectHelper
 		{
 			value = PropertyUtils.getProperty(object, property);
 		}
-		catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
+		catch (IllegalAccessException e)
+		{
+			LOG.error(String.format("Cannot get value for property %s in object %s", property, object), e);
+		}
+		catch (InvocationTargetException e)
+		{
+			LOG.error(String.format("Cannot get value for property %s in object %s", property, object), e);
+		}
+		catch (NoSuchMethodException e)
 		{
 			LOG.error(String.format("Cannot get value for property %s in object %s", property, object), e);
 		}
@@ -63,7 +71,15 @@ public final class ObjectHelper
 		{
 			PropertyUtils.setProperty(object, property, value);
 		}
-		catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
+		catch (IllegalAccessException e)
+		{
+			LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
+		}
+		catch (InvocationTargetException e)
+		{
+			LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
+		}
+		catch (NoSuchMethodException e)
 		{
 			LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
 		}

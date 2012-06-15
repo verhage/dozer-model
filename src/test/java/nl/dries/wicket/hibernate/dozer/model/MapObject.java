@@ -31,11 +31,11 @@ public class MapObject implements Serializable
 	@ElementCollection
 	@JoinTable(name = "map_table", joinColumns = @JoinColumn(name = "mapobject_id", nullable = false))
 	@Column(name = "stringValue", length = 1000)
-	private Map<String, String> map = new HashMap<>();
+	private Map<String, String> map = new HashMap<String, String>();
 
 	/** */
 	@OneToMany(orphanRemoval = true)
-	private List<Adres> adresses = new ArrayList<>();
+	private List<Adres> adresses = new ArrayList<Adres>();
 
 	/**
 	 * @return the id
