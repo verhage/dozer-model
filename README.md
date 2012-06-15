@@ -1,3 +1,6 @@
+# Backport
+This branch is a backport of the Dozer Wicket Hibernate model to support Java 1.6 and Hibernate 3.2.7.ga
+
 # Dozer Wicket Hibernate model
 
 The Dozer Wicket Hibernate model is a Wicket IModel implementation to wrap a Hibernate object and keeping its changed values for several requests (instead of a simple LDM which re-loads a object from the database when re-attaching). To avoid serializing Hibernate proxies the model detaches any unintialized Hibernate proxies (they are replaced with custom `HibernateProxy` instances) that are re-attached when invoking a method on the proxy again, already initialized Hibernate proxies are deproxied.
@@ -14,9 +17,9 @@ In the `onDetach` of the model the object tree is traversed, when a Hibernate pr
 
 ### Prerequisites
 
-* Java 7
+* Java 1.6
 * Wicket 1.5.x
-* Hibernate 3.6.x (only 3.6.x supported since it uses internal Hibernate API's for re-attaching)
+* Hibernate 3.2.7.ga
 * Spring (a Spring bean implementing the `SessionFinder` interface to get access to the Hibernate session, injected using `wicket-spring`)
 
 ### Creation:
