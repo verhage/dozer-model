@@ -5,7 +5,6 @@ import java.io.Serializable;
 import nl.dries.wicket.hibernate.dozer.helper.ModelCallback;
 import nl.dries.wicket.hibernate.dozer.visitor.ObjectVisitor;
 
-import org.apache.wicket.injection.Injector;
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;

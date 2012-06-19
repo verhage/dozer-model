@@ -1,5 +1,6 @@
 package nl.dries.wicket.hibernate.dozer.helper;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -7,6 +8,7 @@ import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ReflectionUtils;
 
 /**
  * Reflection/proxy helper functions
@@ -35,23 +37,29 @@ public final class ObjectHelper
 	public static Object getValue(Object object, String property)
 	{
 		Object value = null;
-		try
+		
+		Field field = ReflectionUtils.findField(object.getClass(), property);
+		if (field != null)
 		{
-			value = PropertyUtils.getProperty(object, property);
+			try
+			{
+				ReflectionUtils.makeAccessible(field);
+				value = ReflectionUtils.getField(field, object);
+			}
+			catch (SecurityException e)
+			{
+				LOG.error(String.format("Cannot get value for property %s in object %s of class %s", property, object, object.getClass()), e);
+			}
+			catch (IllegalStateException e)
+			{
+				LOG.error(String.format("Cannot get value for property %s in object %s of class %s", property, object, object.getClass()), e);
+			}
 		}
-		catch (IllegalAccessException e)
+		else
 		{
-			LOG.error(String.format("Cannot get value for property %s in object %s", property, object), e);
+			LOG.error(String.format("Cannot find field %s in class %s of object %s", property, object.getClass(), object));
 		}
-		catch (InvocationTargetException e)
-		{
-			LOG.error(String.format("Cannot get value for property %s in object %s", property, object), e);
-		}
-		catch (NoSuchMethodException e)
-		{
-			LOG.error(String.format("Cannot get value for property %s in object %s", property, object), e);
-		}
-
+		
 		return value;
 	}
 
