@@ -42,17 +42,6 @@ public final class ObjectHelper
 			value = field.get(object);
 		}
 		catch (IllegalAccessException e)
-<<<<<<< HEAD
-		{
-			LOG.error(String.format("Cannot get value for property %s in object %s", property, object), e);
-		}
-		catch (InvocationTargetException e)
-		{
-			LOG.error(String.format("Cannot get value for property %s in object %s", property, object), e);
-		}
-		catch (NoSuchMethodException e)
-=======
->>>>>>> master
 		{
 			LOG.error(String.format("Cannot get value for property %s in object %s", property, object), e);
 		}
@@ -79,17 +68,6 @@ public final class ObjectHelper
 			field.set(object, value);
 		}
 		catch (IllegalAccessException e)
-<<<<<<< HEAD
-		{
-			LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
-		}
-		catch (InvocationTargetException e)
-		{
-			LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
-		}
-		catch (NoSuchMethodException e)
-=======
->>>>>>> master
 		{
 			LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
 		}

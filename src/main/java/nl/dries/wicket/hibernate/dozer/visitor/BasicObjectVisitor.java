@@ -151,19 +151,11 @@ public class BasicObjectVisitor implements VisitorStrategy
 		{
 			return field.get(object);
 		}
-<<<<<<< HEAD
 		catch (IllegalAccessException e)
 		{
-			LOG.error(String.format("Error while invoking getter %s on bean %s", method, object), e);
+			LOG.error(String.format("Error while getting field %s on bean %s", field, object), e);
 		}
 		catch (IllegalArgumentException e)
-		{
-			LOG.error(String.format("Error while invoking getter %s on bean %s", method, object), e);
-		}
-		catch (InvocationTargetException e)
-=======
-		catch (IllegalAccessException | IllegalArgumentException e)
->>>>>>> master
 		{
 			LOG.error(String.format("Error while getting field %s on bean %s", field, object), e);
 		}
@@ -187,21 +179,14 @@ public class BasicObjectVisitor implements VisitorStrategy
 		{
 			field.set(object, newVal);
 		}
-		catch (IllegalAccessException | IllegalArgumentException e)
+		catch (IllegalAccessException e)
 		{
 			LOG.error(String.format("Error while setting field %s on bean %s", field, object), e);
 		}
-<<<<<<< HEAD
-		catch (IllegalAccessException e)
-		{
-			LOG.error(String.format("Error while invoking setter method %s on bean %s", method, object), e);
-		}
 		catch (IllegalArgumentException e)
 		{
-			LOG.error(String.format("Error while invoking setter method %s on bean %s", method, object), e);
+			LOG.error(String.format("Error while setting field %s on bean %s", field, object), e);
 		}
-		catch (InvocationTargetException e)
-=======
 	}
 
 	/**
@@ -213,10 +198,9 @@ public class BasicObjectVisitor implements VisitorStrategy
 	 */
 	private List<Field> getAllFields(Class<?> clazz)
 	{
-		List<Field> fields = new ArrayList<>();
+		List<Field> fields = new ArrayList<Field>();
 
 		if (clazz != Object.class)
->>>>>>> master
 		{
 			fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
 			fields.addAll(getAllFields(clazz.getSuperclass()));
