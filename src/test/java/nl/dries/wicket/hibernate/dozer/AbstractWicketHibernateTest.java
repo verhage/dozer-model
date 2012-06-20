@@ -3,11 +3,10 @@ package nl.dries.wicket.hibernate.dozer;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.wicket.protocol.http.MockWebApplication;
+import org.apache.wicket.mock.MockApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
-import org.apache.wicket.util.tester.WicketTester.DummyWebApplication;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
@@ -54,8 +53,8 @@ public abstract class AbstractWicketHibernateTest
 			ApplicationContextMock context = new ApplicationContextMock();
 			context.putBean(new MockSessionFinder(sessionFactory));
 
-			DummyWebApplication application = new DummyWebApplication();
-			new SpringComponentInjector(application, context, true);
+			MockApplication application = new MockApplication();
+			new SpringComponentInjector(application, context);
 			wicketTester = new WicketTester(application);
 		}
 	}
