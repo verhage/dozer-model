@@ -1,5 +1,5 @@
 # Backport
-This branch is a backport of the Dozer Wicket Hibernate model to support Java 1.6 and Hibernate 3.2.7.ga
+This branch is a backport of the Dozer Wicket Hibernate model to support older Java/Wicket/Hibernate versions, currently supports Java 1.6, Wicket 1.4 & Hibernate 3.2.7.ga
 
 # Dozer Wicket Hibernate model
 

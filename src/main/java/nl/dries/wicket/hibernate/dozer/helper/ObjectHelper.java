@@ -1,9 +1,7 @@
 package nl.dries.wicket.hibernate.dozer.helper;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
 import org.slf4j.Logger;
@@ -75,21 +73,23 @@ public final class ObjectHelper
 	 */
 	public static void setValue(Object object, String property, Object value)
 	{
-		try
+		Field field = ReflectionUtils.findField(object.getClass(), property);
+		if (field != null)
 		{
-			PropertyUtils.setProperty(object, property, value);
+			try
+			{
+				
+				ReflectionUtils.makeAccessible(field);
+				field.set(object, value);
+			}
+			catch (IllegalAccessException e)
+			{
+				LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
+			}
 		}
-		catch (IllegalAccessException e)
+		else
 		{
-			LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
-		}
-		catch (InvocationTargetException e)
-		{
-			LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
-		}
-		catch (NoSuchMethodException e)
-		{
-			LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
+			LOG.error(String.format("Cannot find field %s in class %s of object %s", property, object.getClass(), object));
 		}
 	}
 
