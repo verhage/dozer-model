@@ -69,6 +69,11 @@ public enum HibernateCollectionType
 		return plainInterface;
 	}
 
+	public Class<? extends PersistentCollection> getHibernateCollectionClass()
+	{
+		return hibernateCollectionClass;
+	}
+
 	/**
 	 * Creates a instance of the {@link PersistentCollection} defined by this type
 	 * 
@@ -166,15 +171,15 @@ public enum HibernateCollectionType
 	{
 		final HibernateCollectionType type;
 
-		if (sourceFieldValue instanceof PersistentSortedSet)
+		if (sourceFieldValue.getValue() instanceof PersistentSortedSet)
 		{
 			type = HibernateCollectionType.SORTED_SET;
 		}
-		else if (sourceFieldValue instanceof PersistentSet)
+		else if (sourceFieldValue.getValue() instanceof PersistentSet)
 		{
 			type = HibernateCollectionType.SET;
 		}
-		else if (sourceFieldValue instanceof PersistentBag)
+		else if (sourceFieldValue.getValue() instanceof PersistentBag)
 		{
 			type = HibernateCollectionType.LIST;
 		}

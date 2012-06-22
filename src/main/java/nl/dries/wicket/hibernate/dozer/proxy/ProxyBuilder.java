@@ -13,9 +13,11 @@ import javassist.util.proxy.ProxyObject;
 import nl.dries.wicket.hibernate.dozer.helper.Attacher;
 import nl.dries.wicket.hibernate.dozer.helper.ObjectHelper;
 import nl.dries.wicket.hibernate.dozer.properties.AbstractPropertyDefinition;
+import nl.dries.wicket.hibernate.dozer.properties.CollectionPropertyDefinition;
 import nl.dries.wicket.hibernate.dozer.properties.SimplePropertyDefinition;
 
 import org.hibernate.HibernateException;
+import org.hibernate.collection.PersistentCollection;
 import org.hibernate.engine.SessionImplementor;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
@@ -65,6 +67,10 @@ public class ProxyBuilder
 		if (property instanceof SimplePropertyDefinition)
 		{
 			interfaces.add(HibernateProxy.class);
+		}
+		else if (property instanceof CollectionPropertyDefinition)
+		{
+			interfaces.add(PersistentCollection.class);
 		}
 
 		factory.setInterfaces(interfaces.toArray(new Class[] {}));
