@@ -137,6 +137,8 @@ public class HibernateObjectVisitor implements VisitorStrategy
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Object convertToPlainCollection(Object object, String propertyName, Object value)
 	{
+		LOG.trace("Converting collection {} of object of type {} to plain collection", propertyName, object.getClass());
+
 		PersistentCollection collection = (PersistentCollection) value;
 		Object plainCollection = HibernateCollectionType.determineType(collection).createPlainCollection(
 			collection);
