@@ -139,7 +139,7 @@ public class ProxyBuilder
 			}
 
 			// Attach the 'real' value
-			Object realValue = new Attacher(propertyDefinition).attach();
+			Object realValue = new Attacher(propertyDefinition, self).attach();
 
 			// Set the value in the original object, thus replacing the proxy
 			ObjectHelper.setValue(propertyDefinition.getOwner(), propertyDefinition.getProperty(), realValue);
@@ -266,7 +266,7 @@ public class ProxyBuilder
 		public Object getImplementation()
 		{
 			// Attach the 'real' value
-			Object realValue = new Attacher(property).attach();
+			Object realValue = new Attacher(property, null).attach();
 
 			// The resulting object may as well be a newly created Hibernate proxy...
 			if (realValue instanceof HibernateProxy)
