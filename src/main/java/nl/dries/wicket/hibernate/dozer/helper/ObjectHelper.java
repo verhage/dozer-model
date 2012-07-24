@@ -35,29 +35,24 @@ public final class ObjectHelper
 	public static Object getValue(Object object, String property)
 	{
 		Object value = null;
-		
-		Field field = ReflectionUtils.findField(object.getClass(), property);
-		if (field != null)
+		try
 		{
-			try
+			Field field = ReflectionUtils.findField(object.getClass(), property);
+			if (field != null)
 			{
 				ReflectionUtils.makeAccessible(field);
-				value = ReflectionUtils.getField(field, object);
+				value = field.get(object);
 			}
-			catch (SecurityException e)
+			else
 			{
-				LOG.error(String.format("Cannot get value for property %s in object %s of class %s", property, object, object.getClass()), e);
-			}
-			catch (IllegalStateException e)
-			{
-				LOG.error(String.format("Cannot get value for property %s in object %s of class %s", property, object, object.getClass()), e);
+				LOG.warn("Field {} not found in class {}", property, object.getClass());
 			}
 		}
-		else
+		catch (IllegalAccessException e)
 		{
-			LOG.error(String.format("Cannot find field %s in class %s of object %s", property, object.getClass(), object));
+			LOG.error(String.format("Cannot get value for property %s in object %s", property, object), e);
 		}
-		
+
 		return value;
 	}
 
@@ -73,23 +68,22 @@ public final class ObjectHelper
 	 */
 	public static void setValue(Object object, String property, Object value)
 	{
-		Field field = ReflectionUtils.findField(object.getClass(), property);
-		if (field != null)
+		try
 		{
-			try
+			Field field = ReflectionUtils.findField(object.getClass(), property);
+			if (field != null)
 			{
-				
 				ReflectionUtils.makeAccessible(field);
 				field.set(object, value);
 			}
-			catch (IllegalAccessException e)
+			else
 			{
-				LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
+				LOG.warn("Field {} not found in class {}", property, object.getClass());
 			}
 		}
-		else
+		catch (IllegalAccessException e)
 		{
-			LOG.error(String.format("Cannot find field %s in class %s of object %s", property, object.getClass(), object));
+			LOG.error(String.format("Cannot set value %s for property %s in object %s", value, property, object), e);
 		}
 	}
 

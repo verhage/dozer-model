@@ -24,7 +24,6 @@ import org.hibernate.collection.PersistentBag;
 import org.hibernate.collection.PersistentCollection;
 import org.hibernate.collection.PersistentMap;
 import org.hibernate.collection.PersistentSet;
-import org.hibernate.engine.SessionImplementor;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
@@ -44,9 +43,6 @@ public class HibernateObjectVisitor implements VisitorStrategy
 	private static final Logger LOG = LoggerFactory.getLogger(HibernateObjectVisitor.class);
 
 	/** */
-	private final SessionImplementor sessionImpl;
-
-	/** */
 	private final ModelCallback callback;
 
 	/** */
@@ -55,13 +51,11 @@ public class HibernateObjectVisitor implements VisitorStrategy
 	/**
 	 * Construct
 	 * 
-	 * @param sessionImpl
 	 * @param callback
 	 * @param metadata
 	 */
-	public HibernateObjectVisitor(SessionImplementor sessionImpl, ModelCallback callback, ClassMetadata metadata)
+	public HibernateObjectVisitor(ModelCallback callback, ClassMetadata metadata)
 	{
-		this.sessionImpl = sessionImpl;
 		this.callback = callback;
 		this.metadata = metadata;
 	}
@@ -72,7 +66,7 @@ public class HibernateObjectVisitor implements VisitorStrategy
 	@Override
 	public Set<Object> visit(Object object)
 	{
-		Serializable identifier = metadata.getIdentifier(object, sessionImpl.getEntityMode());
+		Serializable identifier = metadata.getIdentifier(object, EntityMode.POJO);
 
 		Set<Object> toWalk = new HashSet<Object>();
 
@@ -137,8 +131,6 @@ public class HibernateObjectVisitor implements VisitorStrategy
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Object convertToPlainCollection(Object object, String propertyName, Object value)
 	{
-		LOG.trace("Converting collection {} of object of type {} to plain collection", propertyName, object.getClass());
-
 		PersistentCollection collection = (PersistentCollection) value;
 		Object plainCollection = HibernateCollectionType.determineType(collection).createPlainCollection(
 			collection);
@@ -209,5 +201,6 @@ public class HibernateObjectVisitor implements VisitorStrategy
 		}
 
 		ObjectHelper.setValue(object, propertyName, ProxyBuilder.buildProxy(def));
+		callback.addProxiedProperty(def);
 	}
 }

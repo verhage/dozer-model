@@ -72,7 +72,7 @@ public class ObjectVisitor<T>
 		final VisitorStrategy strategy;
 		if (factory.getClassMetadata(objectClass) != null)
 		{
-			strategy = new HibernateObjectVisitor(sessionImpl, callback, factory.getClassMetadata(objectClass));
+			strategy = new HibernateObjectVisitor(callback, factory.getClassMetadata(objectClass));
 		}
 		else if (current instanceof Collection<?>)
 		{

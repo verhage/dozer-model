@@ -69,11 +69,6 @@ public enum HibernateCollectionType
 		return plainInterface;
 	}
 
-	public Class<? extends PersistentCollection> getHibernateCollectionClass()
-	{
-		return hibernateCollectionClass;
-	}
-
 	/**
 	 * Creates a instance of the {@link PersistentCollection} defined by this type
 	 * 

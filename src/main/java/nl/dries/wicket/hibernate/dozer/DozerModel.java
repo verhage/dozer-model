@@ -1,14 +1,22 @@
 package nl.dries.wicket.hibernate.dozer;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import nl.dries.wicket.hibernate.dozer.helper.Attacher;
 import nl.dries.wicket.hibernate.dozer.helper.ModelCallback;
+import nl.dries.wicket.hibernate.dozer.helper.ObjectHelper;
+import nl.dries.wicket.hibernate.dozer.properties.AbstractPropertyDefinition;
 import nl.dries.wicket.hibernate.dozer.visitor.ObjectVisitor;
 
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.hibernate.proxy.HibernateProxy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Dozer Wicket Hibernate model. This model wil act as a detachable model. When detaching all initalized objects in the
@@ -28,6 +36,12 @@ public class DozerModel<T> implements IModel<T>, ModelCallback
 {
 	/** Default */
 	private static final long serialVersionUID = 1L;
+
+	/** Logger */
+	private static final Logger LOG = LoggerFactory.getLogger(DozerModel.class);
+
+	/** Object with proxied properties */
+	private final List<AbstractPropertyDefinition> proxiedProperties = new ArrayList<AbstractPropertyDefinition>();
 
 	/** Object instance */
 	private T object;
@@ -81,6 +95,13 @@ public class DozerModel<T> implements IModel<T>, ModelCallback
 		// Possibly restore detached state
 		if (object == null && detachedObject != null)
 		{
+			List<AbstractPropertyDefinition> proxiedClone = new ArrayList<AbstractPropertyDefinition>(proxiedProperties);
+			for (AbstractPropertyDefinition def : proxiedClone)
+			{
+				ObjectHelper.setValue(def.getOwner(), def.getProperty(), new Attacher(def).attach());
+			}
+			proxiedProperties.clear();
+
 			object = detachedObject;
 
 			// Remove detached state
@@ -109,7 +130,18 @@ public class DozerModel<T> implements IModel<T>, ModelCallback
 	@Override
 	public void detach()
 	{
-		if (object != null && detachedObject == null)
+		boolean doDetach = true;
+
+		RequestCycle requestCycle = RequestCycle.get();
+		if (requestCycle != null)
+		{
+			Boolean val = requestCycle.getMetaData(DozerRequestCycleListener.ENDING_REQUEST);
+			doDetach = val == null || val.booleanValue();
+		}
+
+		LOG.debug("Detaching in onEndRequest? {}", doDetach);
+
+		if (doDetach && object != null && detachedObject == null)
 		{
 			if (object instanceof HibernateProxy)
 			{
@@ -131,6 +163,15 @@ public class DozerModel<T> implements IModel<T>, ModelCallback
 	public SessionFinder getSessionFinder()
 	{
 		return sessionFinder;
+	}
+
+	/**
+	 * @see nl.dries.wicket.hibernate.dozer.helper.ModelCallback#addProxiedProperty
+	 *      (nl.dries.wicket.hibernate.dozer.properties.AbstractPropertyDefinition)
+	 */
+	public void addProxiedProperty(AbstractPropertyDefinition property)
+	{
+		proxiedProperties.add(property);
 	}
 
 	/**
