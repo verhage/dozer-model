@@ -12,6 +12,7 @@ import java.util.TreeSet;
 
 import org.hibernate.collection.PersistentBag;
 import org.hibernate.collection.PersistentCollection;
+import org.hibernate.collection.PersistentList;
 import org.hibernate.collection.PersistentMap;
 import org.hibernate.collection.PersistentSet;
 import org.hibernate.collection.PersistentSortedSet;
@@ -27,7 +28,9 @@ import org.slf4j.LoggerFactory;
 public enum HibernateCollectionType
 {
 	/** */
-	LIST(PersistentBag.class, ArrayList.class, List.class),
+	BAG(PersistentBag.class, ArrayList.class, List.class),
+	/** */
+	LIST(PersistentList.class, ArrayList.class, List.class),
 	/** */
 	SET(PersistentSet.class, HashSet.class, Set.class),
 	/** */
@@ -175,6 +178,10 @@ public enum HibernateCollectionType
 			type = HibernateCollectionType.SET;
 		}
 		else if (sourceFieldValue.getValue() instanceof PersistentBag)
+		{
+			type = HibernateCollectionType.BAG;
+		}
+		else if (sourceFieldValue.getValue() instanceof PersistentList)
 		{
 			type = HibernateCollectionType.LIST;
 		}

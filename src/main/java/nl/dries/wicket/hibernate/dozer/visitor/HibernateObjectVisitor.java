@@ -20,7 +20,6 @@ import nl.dries.wicket.hibernate.dozer.proxy.ProxyBuilder.Proxied;
 
 import org.hibernate.EntityMode;
 import org.hibernate.Hibernate;
-import org.hibernate.collection.PersistentBag;
 import org.hibernate.collection.PersistentCollection;
 import org.hibernate.collection.PersistentMap;
 import org.hibernate.collection.PersistentSet;
@@ -132,14 +131,13 @@ public class HibernateObjectVisitor implements VisitorStrategy
 	private Object convertToPlainCollection(Object object, String propertyName, Object value)
 	{
 		PersistentCollection collection = (PersistentCollection) value;
-		Object plainCollection = HibernateCollectionType.determineType(collection).createPlainCollection(
-			collection);
+		Object plainCollection = HibernateCollectionType.determineType(collection).createPlainCollection(collection);
 
 		// Deproxy all the elements in the collection
 		if (plainCollection instanceof List<?>)
 		{
 			List list = (List) plainCollection;
-			for (Iterator<?> iter = ((PersistentBag) collection).iterator(); iter.hasNext();)
+			for (Iterator<?> iter = ((List) collection).iterator(); iter.hasNext();)
 			{
 				Object next = iter.next();
 				list.add(ObjectHelper.deproxy(next));
